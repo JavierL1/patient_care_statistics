@@ -1,0 +1,87 @@
+import 'package:date_time_format/date_time_format.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:patient_care_statistics/providers/new_born_sheets.dart';
+import 'package:patient_care_statistics/routes.dart';
+import 'package:patient_care_statistics/widgets/cool_button.dart';
+
+class NewBornSheetsView extends ConsumerWidget {
+  const NewBornSheetsView({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          CoolButton(
+            onPressed: () =>
+                {Navigator.pushNamed(context, healthProfessionalRoute)},
+            child: const Icon(Icons.medical_information),
+          ),
+          CoolButton(
+            onPressed: () => {Navigator.pushNamed(context, newBornEntryRoute)},
+            child: const Icon(Icons.baby_changing_station),
+          )
+        ],
+      ),
+      body: ref.watch(newBornSheetsProvider).when(
+            data: (newBornSheets) => ListView.builder(
+              itemCount: newBornSheets.length,
+              itemBuilder: (context, index) {
+                final newBornSheet = newBornSheets[index];
+                return Card(
+                  elevation: 4, // Add elevation for a card-like appearance
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    title: Text(
+                      newBornSheet.newBornName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            const Icon(Icons.favorite),
+                            Text(
+                                "${newBornSheet.birthDateTime.format('d/m/Y')} - ${newBornSheet.lifeDays} días de vida"),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.place),
+                            Text(newBornSheet.sectorCode),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(Icons.bed),
+                            Text(newBornSheet.bedCode),
+                          ],
+                        ),
+                      ],
+                    ),
+                    onTap: () => {
+                      Navigator.pushNamed(context, newBornEntryRoute,
+                          arguments: {"newBornSheet": newBornSheet})
+                    },
+                  ),
+                );
+              },
+            ),
+            error: (e, s) {
+              return const Center(
+                child: Text("Error"),
+              );
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+    );
+  }
+}
