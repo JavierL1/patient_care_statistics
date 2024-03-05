@@ -19,6 +19,16 @@ class NewBornEntry with _$NewBornEntry {
   factory NewBornEntry.fromJson(Map<String, dynamic> json) =>
       _$NewBornEntryFromJson(json);
 
+  factory NewBornEntry.initial() => NewBornEntry(
+        insertedAt: DateTime.now(),
+        sectorCode: "",
+        bedCode: "",
+        entryDateTime: DateTime.now(),
+        newBornName: "",
+        birthDateTime: DateTime.now(),
+        healthInsurance: "",
+      );
+
   factory NewBornEntry.fromSheet(NewBornSheet sheet) => NewBornEntry(
         insertedAt: sheet.insertedAt,
         sectorCode: sheet.sectorCode,

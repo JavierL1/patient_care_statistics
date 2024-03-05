@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:patient_care_statistics/aggregates/health_professional.dart';
-import 'package:patient_care_statistics/form_payloads/health_professional_entry.dart';
-import 'package:patient_care_statistics/widgets/custom_text_field.dart';
 
+import '../form_payloads/health_professional_entry.dart';
 import '../routes.dart';
+import '../widgets/custom_text_field.dart';
 
 class HealthProfessionalView extends StatefulWidget {
   const HealthProfessionalView({super.key});
@@ -13,10 +12,42 @@ class HealthProfessionalView extends StatefulWidget {
 }
 
 class _HealthProfessionalViewState extends State<HealthProfessionalView> {
-  HealthProfessionalEntry state = HealthProfessionalEntry(
-    insertedAt: DateTime.now(),
-    healthProfessional: const HealthProfessional(name: "", profession: ""),
-  );
+  HealthProfessionalEntry _state = HealthProfessionalEntry.initial();
+  final Map<String, TextEditingController> _controllers = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controllers['name'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.healthProfessional.name),
+    );
+    _controllers['profession'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.healthProfessional.profession),
+    );
+
+    _controllers['name']!.addListener(
+      () => setState(
+        () => _state = _state.copyWith
+            .healthProfessional(name: _controllers['name']!.text),
+      ),
+    );
+    _controllers['profession']!.addListener(
+      () => setState(
+        () => _state = _state.copyWith
+            .healthProfessional(profession: _controllers['profession']!.text),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +85,13 @@ class _HealthProfessionalViewState extends State<HealthProfessionalView> {
                 CustomTextField(
                   hintText: "Dámaris Suárez",
                   labelText: "Nombre",
-                  updateValue: (text) => setState(() =>
-                      state = state.copyWith.healthProfessional(name: text)),
+                  controller: _controllers['name']!,
                 ),
                 const SizedBox(height: 10),
                 CustomTextField(
                   hintText: "Fonoaudióloga",
                   labelText: "Profesión",
-                  updateValue: (text) => state =
-                      state.copyWith.healthProfessional(profession: text),
+                  controller: _controllers['profession']!,
                 ),
               ],
             ),

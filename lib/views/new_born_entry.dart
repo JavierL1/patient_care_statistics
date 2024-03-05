@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:patient_care_statistics/aggregates/new_born_sheet.dart';
-import 'package:patient_care_statistics/providers/db.dart';
-import 'package:patient_care_statistics/providers/new_born_sheets.dart';
-import 'package:patient_care_statistics/providers/uuid.dart';
-import 'package:patient_care_statistics/widgets/cool_button.dart';
-import 'package:patient_care_statistics/widgets/custom_date_time_picker.dart';
-import 'package:patient_care_statistics/widgets/custom_text_field.dart';
-import 'package:patient_care_statistics/form_payloads/new_born_entry.dart';
 
+import '../aggregates/new_born_sheet.dart';
 import '../events/create_new_born_sheet.dart';
+import '../events/update_new_born_sheet_base_fields.dart';
+import '../form_payloads/new_born_entry.dart';
+import '../providers/db.dart';
+import '../providers/new_born_sheets.dart';
+import '../providers/uuid.dart';
 import '../routes.dart';
+import '../widgets/cool_button.dart';
+import '../widgets/custom_date_time_picker.dart';
+import '../widgets/custom_text_field.dart';
 
 class NewBornEntryView extends ConsumerStatefulWidget {
   final NewBornSheet? newBornSheet;
@@ -22,30 +23,82 @@ class NewBornEntryView extends ConsumerStatefulWidget {
 }
 
 class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
-  NewBornEntry state = NewBornEntry(
-    insertedAt: DateTime.now(),
-    sectorCode: "",
-    bedCode: "",
-    entryDateTime: DateTime.now(),
-    newBornName: "",
-    birthDateTime: DateTime.now(),
-    healthInsurance: "",
-  );
+  NewBornEntry _state = NewBornEntry.initial();
+  final Map<String, TextEditingController> _controllers = {};
 
   @override
   void initState() {
-    if (widget.newBornSheet != null) {
-      state = NewBornEntry.fromSheet(widget.newBornSheet!);
-    }
     super.initState();
+
+    if (widget.newBornSheet != null) {
+      _state = NewBornEntry.fromSheet(widget.newBornSheet!);
+    }
+
+    _controllers['sectorCode'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.sectorCode),
+    );
+    _controllers['bedCode'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.bedCode),
+    );
+    _controllers['newBornName'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.newBornName),
+    );
+    _controllers['healthInsurance'] = TextEditingController.fromValue(
+      TextEditingValue(text: _state.healthInsurance),
+    );
+
+    _controllers['sectorCode']!.addListener(
+      () => setState(
+        () => _state =
+            _state.copyWith(sectorCode: _controllers['sectorCode']!.text),
+      ),
+    );
+    _controllers['bedCode']!.addListener(
+      () => setState(
+        () => _state = _state.copyWith(bedCode: _controllers['bedCode']!.text),
+      ),
+    );
+    _controllers['newBornName']!.addListener(
+      () => setState(
+        () => _state =
+            _state.copyWith(newBornName: _controllers['newBornName']!.text),
+      ),
+    );
+    _controllers['healthInsurance']!.addListener(
+      () => setState(
+        () => _state = _state.copyWith(
+          healthInsurance: _controllers['healthInsurance']!.text,
+        ),
+      ),
+    );
   }
 
-  Future<void> _createNewBornSheet(NewBornEntry newBornEntry) async {
+  @override
+  void dispose() {
+    for (var controller in _controllers.values) {
+      controller.dispose();
+    }
+
+    super.dispose();
+  }
+
+  Future<int> _processNewBornEntry(NewBornEntry newBornEntry) async {
     final db = ref.watch(dbProvider);
     final uuid = ref.watch(uuidProvider);
 
-    final recordId = await createNewBornSheet(newBornEntry, db!, uuid!);
+    if (widget.newBornSheet == null) {
+      return await createNewBornSheet(newBornEntry, db!, uuid!);
+    } else {
+      return await updateNewBornSheetBaseFields(
+        widget.newBornSheet!.id,
+        newBornEntry,
+        db!,
+        uuid!,
+      );
+    }
+  }
 
+  void _createRecordCallback(int recordId) {
     if (recordId > 0) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Entrada guardada'),
@@ -66,8 +119,8 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
         actions: [
           CoolButton(
             onPressed: () =>
-                {Navigator.pushNamed(context, healthProfessionalRoute)},
-            child: const Text("+ Profesional de salud"),
+                Navigator.pushNamed(context, healthProfessionalRoute),
+            child: const Text('+ Profesional de salud'),
           )
         ],
       ),
@@ -75,55 +128,54 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
         child: Column(
           children: [
             const Text(
-              "Nuevo Ingreso",
+              'Nuevo Ingreso',
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: "A-001",
-              labelText: "Sector",
-              updateValue: (text) =>
-                  setState(() => state = state.copyWith(sectorCode: text)),
+              hintText: 'A-001',
+              labelText: 'Sector',
+              controller: _controllers['sectorCode']!,
             ),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: "A-001",
-              labelText: "Cama",
-              updateValue: (text) =>
-                  setState(() => state = state.copyWith(bedCode: text)),
+              hintText: 'A-001',
+              labelText: 'Cama',
+              controller: _controllers['bedCode']!,
             ),
             const SizedBox(height: 10),
             CustomDateTimePicker(
-              currentValue: state.entryDateTime,
-              title: "Fecha registro",
-              updateValue: (value) =>
-                  setState(() => state = state.copyWith(entryDateTime: value)),
+              currentValue: _state.entryDateTime,
+              title: 'Fecha registro',
+              updateValue: (value) => setState(
+                  () => _state = _state.copyWith(entryDateTime: value)),
             ),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: "Juan Pérez",
-              labelText: "Nombre RN",
-              updateValue: (text) =>
-                  setState(() => state = state.copyWith(newBornName: text)),
+              hintText: 'Juan Pérez',
+              labelText: 'Nombre RN',
+              controller: _controllers['newBornName']!,
             ),
             const SizedBox(height: 10),
             CustomDateTimePicker(
-              currentValue: state.birthDateTime,
-              title: "Fecha de parto",
-              updateValue: (value) =>
-                  setState(() => state = state.copyWith(birthDateTime: value)),
+              currentValue: _state.birthDateTime,
+              title: 'Fecha de parto',
+              updateValue: (value) => setState(
+                  () => _state = _state.copyWith(birthDateTime: value)),
             ),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: "FONASA",
-              labelText: "Previsión de salud",
-              updateValue: (text) =>
-                  setState(() => state = state.copyWith(healthInsurance: text)),
+              hintText: 'FONASA',
+              labelText: 'Previsión de salud',
+              controller: _controllers['healthInsurance']!,
             ),
             const SizedBox(height: 10),
             CoolButton(
-              child: const Text("Guardar"),
-              onPressed: () async => await _createNewBornSheet(state),
+              child: const Text('Guardar'),
+              onPressed: () async {
+                final recordId = await _processNewBornEntry(_state);
+                _createRecordCallback(recordId);
+              },
             ),
           ],
         ),

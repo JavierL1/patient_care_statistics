@@ -1,10 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
 import '../form_payloads/new_born_entry.dart';
+import 'common.dart';
 
 Future<int> createNewBornSheet(
   NewBornEntry newBornEntry,
@@ -21,10 +19,4 @@ Future<int> createNewBornSheet(
     'event_type': "CREATE_NEW_BORN_SHEET",
     'data': data,
   });
-}
-
-Uint8List modelToBlob(dynamic object) {
-  final Map<String, dynamic> jsonObject = object.toJson();
-  final String jsonData = jsonEncode(jsonObject);
-  return utf8.encode(jsonData);
 }

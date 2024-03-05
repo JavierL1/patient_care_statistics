@@ -9,7 +9,6 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon = const Icon(Icons.abc),
   });
 
-  final void Function(String) updateValue;
   final String hintText;
   final String labelText;
   final TextEditingController controller;

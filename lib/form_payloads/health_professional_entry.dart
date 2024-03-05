@@ -9,4 +9,9 @@ class HealthProfessionalEntry with _$HealthProfessionalEntry {
     required DateTime insertedAt,
     required HealthProfessional healthProfessional,
   }) = _HealthProfessionalEntry;
+
+  factory HealthProfessionalEntry.initial() => HealthProfessionalEntry(
+        insertedAt: DateTime.now(),
+        healthProfessional: const HealthProfessional(name: "", profession: ""),
+      );
 }

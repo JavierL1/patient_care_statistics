@@ -9,8 +9,11 @@ final newBornSheetsProvider = FutureProvider<List<NewBornSheet>>(
     if (db == null) return [];
     final newBornSheetEvents = await db.query(
       'events',
-      where: '"event_type" IN (?)',
-      whereArgs: ['CREATE_NEW_BORN_SHEET'],
+      where: '"event_type" IN (?, ?)',
+      whereArgs: [
+        'CREATE_NEW_BORN_SHEET',
+        'UPDATE_NEW_BORN_SHEET_BASE_FIELDS',
+      ],
     );
 
     return newBornSheetEvents
