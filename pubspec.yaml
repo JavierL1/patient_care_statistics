@@ -23,6 +23,8 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   date_time_format: ^2.0.1
+  excel: ^4.0.2
+  permission_handler: ^11.3.0
 
 dev_dependencies:
   flutter_test:
