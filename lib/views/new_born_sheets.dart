@@ -23,14 +23,6 @@ class NewBornSheetsView extends ConsumerWidget {
               onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
               child: const Icon(Icons.baby_changing_station),
             ),
-            const SizedBox(width: 10),
-            CoolButton(
-              onPressed: () => backupDBFile(
-                ref.watch(dbPathProvider),
-                ref.watch(dbNameProvider),
-              ),
-              child: const Icon(Icons.storage),
-            ),
           ],
         ),
       ),
