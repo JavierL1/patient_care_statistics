@@ -83,7 +83,7 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
   }
 
   Future<int> _processNewBornEntry(NewBornEntry newBornEntry) async {
-    final db = ref.watch(dbProvider);
+    final db = ref.watch(dbInstanceProvider);
     final uuid = ref.watch(uuidProvider);
 
     if (widget.newBornSheet == null) {

@@ -5,7 +5,7 @@ import 'package:patient_care_statistics/providers/db.dart';
 
 final newBornSheetsProvider = FutureProvider<List<NewBornSheet>>(
   (ref) async {
-    final db = ref.watch(dbProvider);
+    final db = ref.watch(dbInstanceProvider);
     if (db == null) return [];
     final newBornSheetEvents = await db.query(
       'events',

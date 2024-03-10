@@ -14,8 +14,10 @@ import 'providers/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
+  const dbName = 'patient_care_statistics';
+  final dbPath = join(await getDatabasesPath(), '$dbName.db');
   final database = await openDatabase(
-    join(await getDatabasesPath(), 'patient_care.db'),
+    dbPath,
     onCreate: (db, version) {
       return db.execute(
         '''
@@ -39,7 +41,9 @@ void main() async {
     observers: const [],
     overrides: [
       sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-      dbProvider.overrideWithValue(database),
+      dbInstanceProvider.overrideWithValue(database),
+      dbPathProvider.overrideWithValue(dbPath),
+      dbNameProvider.overrideWithValue(dbName),
       uuidProvider.overrideWithValue(uuid),
     ],
     child: const MyApp(),

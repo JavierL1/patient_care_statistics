@@ -5,9 +5,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:date_time_format/date_time_format.dart';
 
 import '../aggregates/new_born_sheet.dart';
+import '../dates/formatted_dates.dart';
 
 Future<void> writeExcel(List<NewBornSheet> newBornSheets) async {
   final storagePermissionTypes = [
@@ -120,8 +120,8 @@ Future<File> _writeExcelFile(Excel excel) async {
   var fileBytes = excel.save();
   var directory = await getApplicationDocumentsDirectory();
 
-  final file = File(join(
-      '${directory.path}/estadísticas_${DateTime.now().format('Y_m_d_H_i')}.xlsx'));
+  final file =
+      File(join('${directory.path}/estadísticas_${nowFormatted()}.xlsx'));
 
   file
     ..createSync(recursive: true)

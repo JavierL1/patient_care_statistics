@@ -2,7 +2,9 @@ import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:patient_care_statistics/aggregates/new_born_sheet.dart';
+import 'package:patient_care_statistics/db/backup.dart';
 import 'package:patient_care_statistics/excel/writer.dart';
+import 'package:patient_care_statistics/providers/db.dart';
 import 'package:patient_care_statistics/providers/new_born_sheets.dart';
 import 'package:patient_care_statistics/routes.dart';
 import 'package:patient_care_statistics/widgets/cool_button.dart';
@@ -20,6 +22,14 @@ class NewBornSheetsView extends ConsumerWidget {
             CoolButton(
               onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
               child: const Icon(Icons.baby_changing_station),
+            ),
+            const SizedBox(width: 10),
+            CoolButton(
+              onPressed: () => backupDBFile(
+                ref.watch(dbPathProvider),
+                ref.watch(dbNameProvider),
+              ),
+              child: const Icon(Icons.storage),
             ),
           ],
         ),
