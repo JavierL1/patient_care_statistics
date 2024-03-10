@@ -116,12 +116,12 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          CoolButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, healthProfessionalRoute),
-            child: const Text('+ Profesional de salud'),
-          )
+        actions: const [
+          // CoolButton(
+          //   onPressed: () =>
+          //       Navigator.pushNamed(context, healthProfessionalRoute),
+          //   child: const Text('+ Profesional de salud'),
+          // )
         ],
       ),
       body: SingleChildScrollView(

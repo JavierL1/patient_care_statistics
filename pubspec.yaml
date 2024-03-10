@@ -23,8 +23,11 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   date_time_format: ^2.0.1
-  excel: ^4.0.2
+  excel:
+    git: 
+      url: https://github.com/justkawal/excel.git
   permission_handler: ^11.3.0
+  share_plus: ^7.2.2
 
 dev_dependencies:
   flutter_test:

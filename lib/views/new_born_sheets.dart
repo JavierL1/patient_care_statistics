@@ -13,19 +13,18 @@ class NewBornSheetsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          CoolButton(
-            onPressed: () =>
-                Navigator.pushNamed(context, healthProfessionalRoute),
-            child: const Icon(Icons.medical_information),
-          ),
-          CoolButton(
-            onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
-            child: const Icon(Icons.baby_changing_station),
-          ),
-        ],
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CoolButton(
+              onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
+              child: const Icon(Icons.baby_changing_station),
+            ),
+          ],
+        ),
       ),
+      appBar: AppBar(automaticallyImplyLeading: false),
       body: ref.watch(newBornSheetsProvider).when(
             data: (newBornSheets) {
               if (newBornSheets.isNotEmpty) {
@@ -59,10 +58,6 @@ class SheetsLister extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CoolButton(
-          onPressed: () async => writeExcel(newBornSheets),
-          child: const Icon(Icons.share),
-        ),
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,
@@ -86,6 +81,7 @@ class SheetsLister extends StatelessWidget {
                       Row(
                         children: [
                           const Icon(Icons.favorite),
+                          const SizedBox(width: 10),
                           Text(
                               "${newBornSheet.birthDateTime.format('d/m/Y')} - ${newBornSheet.lifeDays} días de vida"),
                         ],
@@ -93,12 +89,14 @@ class SheetsLister extends StatelessWidget {
                       Row(
                         children: [
                           const Icon(Icons.place),
+                          const SizedBox(width: 10),
                           Text(newBornSheet.sectorCode),
                         ],
                       ),
                       Row(
                         children: [
                           const Icon(Icons.bed),
+                          const SizedBox(width: 10),
                           Text(newBornSheet.bedCode),
                         ],
                       ),
@@ -112,6 +110,10 @@ class SheetsLister extends StatelessWidget {
               );
             },
           ),
+        ),
+        CoolButton(
+          onPressed: () async => writeExcel(newBornSheets),
+          child: const Icon(Icons.download),
         ),
       ],
     );

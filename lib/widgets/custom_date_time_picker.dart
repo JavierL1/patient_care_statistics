@@ -1,3 +1,4 @@
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/material.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
@@ -77,7 +78,7 @@ class CustomDateTimePicker extends StatelessWidget {
             onPressed: () => _selectDate(context),
             icon: const Icon(Icons.calendar_today),
             label: Text(
-              currentValue.toString(),
+              currentValue.format("dd/MM/yyyy HH:mm:ss"),
               style: const TextStyle(color: Colors.black),
             ),
           ),
