@@ -102,12 +102,14 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
     if (recordId > 0) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Entrada guardada'),
+        duration: Durations.medium4,
       ));
       ref.invalidate(newBornSheetsProvider);
       Navigator.pushNamed(context, newBornSheetsRoute);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('No se pudo guardar'),
+        duration: Durations.medium4,
       ));
     }
   }

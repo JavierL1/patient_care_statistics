@@ -10,19 +10,23 @@ import '../aggregates/new_born_sheet.dart';
 import '../dates/formatted_dates.dart';
 
 Future<void> writeExcel(List<NewBornSheet> newBornSheets) async {
-  final storagePermissionTypes = [
-    Permission.storage,
-    Permission.manageExternalStorage
-  ];
+  if (Platform.isAndroid) {
+    final storagePermissionTypes = [
+      Permission.storage,
+      Permission.manageExternalStorage
+    ];
 
-  Map<Permission, PermissionStatus> statuses =
-      await storagePermissionTypes.request();
+    Map<Permission, PermissionStatus> statuses =
+        await storagePermissionTypes.request();
 
-  final anyStoragePermissionIsGranted = storagePermissionTypes
-      .map((statusType) => statuses[statusType]?.isGranted ?? false)
-      .any((isGranted) => isGranted);
+    final anyStoragePermissionIsGranted = storagePermissionTypes
+        .map((statusType) => statuses[statusType]?.isGranted ?? false)
+        .any((isGranted) => isGranted);
 
-  if (anyStoragePermissionIsGranted) await _writeExcel(newBornSheets);
+    if (anyStoragePermissionIsGranted) await _writeExcel(newBornSheets);
+  } else {
+    await _writeExcel(newBornSheets);
+  }
 }
 
 Future<void> _writeExcel(List<NewBornSheet> newBornSheets) async {
@@ -44,7 +48,7 @@ Future<void> _writeExcel(List<NewBornSheet> newBornSheets) async {
 
   final excelFile = await _writeExcelFile(excel);
 
-  await Share.shareXFiles([XFile(excelFile.path)]);
+  if (Platform.isAndroid) await Share.shareXFiles([XFile(excelFile.path)]);
 }
 
 void _writeHeaders(Sheet excelSheet, List<String> headers) {

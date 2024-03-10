@@ -122,7 +122,13 @@ class SheetsLister extends StatelessWidget {
           ),
         ),
         CoolButton(
-          onPressed: () async => writeExcel(newBornSheets),
+          onPressed: () async {
+            await writeExcel(newBornSheets);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Excel generado'),
+              duration: Durations.medium4,
+            ));
+          },
           child: const Icon(Icons.download),
         ),
       ],
