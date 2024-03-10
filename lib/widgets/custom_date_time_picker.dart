@@ -26,9 +26,7 @@ class CustomDateTimePicker extends StatelessWidget {
       lastDate: DateTime(2030, 12),
       isForce2Digits: true,
       is24HourMode: true,
-      isShowSeconds: true,
       minutesInterval: 1,
-      secondsInterval: 1,
       borderRadius: const BorderRadius.all(Radius.circular(16)),
       constraints: const BoxConstraints(
         maxWidth: 350,
@@ -78,7 +76,7 @@ class CustomDateTimePicker extends StatelessWidget {
             onPressed: () => _selectDate(context),
             icon: const Icon(Icons.calendar_today),
             label: Text(
-              currentValue.format("d/m/Y H:i:s"),
+              currentValue.format("d/m/Y H:i"),
               style: const TextStyle(color: Colors.black),
             ),
           ),
