@@ -78,7 +78,7 @@ class CustomDateTimePicker extends StatelessWidget {
             onPressed: () => _selectDate(context),
             icon: const Icon(Icons.calendar_today),
             label: Text(
-              currentValue.format("dd/MM/yyyy HH:mm:ss"),
+              currentValue.format("d/m/Y H:i:s"),
               style: const TextStyle(color: Colors.black),
             ),
           ),

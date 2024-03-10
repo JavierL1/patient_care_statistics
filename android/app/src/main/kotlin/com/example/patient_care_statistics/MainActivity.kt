@@ -1,4 +1,4 @@
-package com.example.patient_care_statistics
+package com.bigmiau.patient_care_statistics
 
 import io.flutter.embedding.android.FlutterActivity
 

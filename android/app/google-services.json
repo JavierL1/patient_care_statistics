@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "898409040015",
+    "project_id": "patient-care-statistics",
+    "storage_bucket": "patient-care-statistics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898409040015:android:b1208015c3e522ff1b88fa",
+        "android_client_info": {
+          "package_name": "com.bigmiau.patient_care_statistics"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgRMz4jN_5sOInT3Sxq6it-vwt1nBoHu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
