@@ -10,11 +10,19 @@ import 'package:date_time_format/date_time_format.dart';
 import '../aggregates/new_born_sheet.dart';
 
 Future<void> writeExcel(List<NewBornSheet> newBornSheets) async {
-  final storagePermission = await Permission.manageExternalStorage.request();
+  final storagePermissionTypes = [
+    Permission.storage,
+    Permission.manageExternalStorage
+  ];
 
-  if (storagePermission.isGranted) {
-    await _writeExcel(newBornSheets);
-  }
+  Map<Permission, PermissionStatus> statuses =
+      await storagePermissionTypes.request();
+
+  final anyStoragePermissionIsGranted = storagePermissionTypes
+      .map((statusType) => statuses[statusType]?.isGranted ?? false)
+      .any((isGranted) => isGranted);
+
+  if (anyStoragePermissionIsGranted) await _writeExcel(newBornSheets);
 }
 
 Future<void> _writeExcel(List<NewBornSheet> newBornSheets) async {

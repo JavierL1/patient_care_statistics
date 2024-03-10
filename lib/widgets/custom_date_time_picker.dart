@@ -59,9 +59,9 @@ class CustomDateTimePicker extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200, // Background color
-        borderRadius: BorderRadius.circular(10.0), // Rounded corners
-        border: Border.all(color: Colors.black54, width: 1.5), // Border
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(color: Colors.black54, width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
