@@ -66,7 +66,7 @@ class SheetsLister extends StatelessWidget {
             itemBuilder: (context, index) {
               final newBornSheet = newBornSheets[index];
               return Card(
-                elevation: 4, // Add elevation for a card-like appearance
+                elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: ListTile(
                   title: Text(

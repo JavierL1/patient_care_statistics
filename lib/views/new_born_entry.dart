@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:patient_care_statistics/providers/health_professionals.dart';
 
 import '../aggregates/new_born_sheet.dart';
 import '../events/create_new_born_sheet.dart';
@@ -12,6 +13,7 @@ import '../routes.dart';
 import '../widgets/cool_button.dart';
 import '../widgets/custom_date_time_picker.dart';
 import '../widgets/custom_text_field.dart';
+import '../widgets/health_professionals_selector.dart';
 
 class NewBornEntryView extends ConsumerStatefulWidget {
   final NewBornSheet? newBornSheet;
@@ -117,14 +119,25 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: const [
-          // CoolButton(
-          //   onPressed: () =>
-          //       Navigator.pushNamed(context, healthProfessionalRoute),
-          //   child: const Text('+ Profesional de salud'),
-          // )
-        ],
+      appBar: AppBar(),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CoolButton(
+              onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
+              child: const Row(
+                children: [
+                  Icon(Icons.health_and_safety),
+                  Icon(
+                    Icons.add,
+                    size: 18,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -170,6 +183,54 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
               hintText: 'FONASA',
               labelText: 'Previsión de salud',
               controller: _controllers['healthInsurance']!,
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: 60,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(color: Colors.black54, width: 1.5),
+              ),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: GestureDetector(
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Profesional encargada',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                        Text(
+                          'Dámaris Suárez',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Icon(Icons.arrow_drop_down, size: 40),
+                  ],
+                ),
+                onTap: () async {
+                  final healthProfessionals =
+                      await ref.watch(healthProfessionalsProvider.future);
+
+                  final healthProfessional = await showDialog<int>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return HealthProfessionalsSelector(
+                        healthProfessionals: healthProfessionals,
+                      );
+                    },
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 10),
             CoolButton(
