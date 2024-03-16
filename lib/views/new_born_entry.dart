@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:patient_care_statistics/providers/health_professionals.dart';
 
 import '../aggregates/new_born_sheet.dart';
 import '../events/create_new_born_sheet.dart';
 import '../events/update_new_born_sheet_base_fields.dart';
 import '../form_payloads/new_born_entry.dart';
 import '../providers/db.dart';
+import '../providers/health_professionals.dart';
 import '../providers/new_born_sheets.dart';
 import '../providers/uuid.dart';
 import '../routes.dart';
@@ -107,7 +107,7 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
         duration: Durations.medium4,
       ));
       ref.invalidate(newBornSheetsProvider);
-      Navigator.pushNamed(context, newBornSheetsRoute);
+      Navigator.popAndPushNamed(context, newBornSheetsRoute);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('No se pudo guardar'),
@@ -119,7 +119,9 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Ficha Recién Nacido"),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -142,11 +144,6 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
-              'Nuevo Ingreso',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 10),
             CustomTextField(
               hintText: 'A-001',
               labelText: 'Sector',

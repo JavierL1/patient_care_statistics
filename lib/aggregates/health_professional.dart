@@ -16,6 +16,13 @@ class HealthProfessional with _$HealthProfessional {
   factory HealthProfessional.fromJson(Map<String, dynamic> json) =>
       _$HealthProfessionalFromJson(json);
 
+  factory HealthProfessional.initial() => HealthProfessional(
+        id: "",
+        name: "",
+        profession: "",
+        insertedAt: DateTime.now(),
+      );
+
   factory HealthProfessional.reduceFromStream(
     String streamId,
     List<BaseEvent> events,

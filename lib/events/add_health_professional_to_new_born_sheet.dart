@@ -20,16 +20,3 @@ Future<int> updateNewBornSheetBaseFields(
     'data': data,
   });
 }
-
-Future<int> getLatestStreamVersion(String streamId, Database db) async {
-  final result = await db.query(
-    'events',
-    columns: ['version'],
-    where: '"stream_id" = ?',
-    whereArgs: [streamId],
-    orderBy: '"version DESC"',
-    limit: 1,
-  );
-
-  return result.first['version'] as int;
-}

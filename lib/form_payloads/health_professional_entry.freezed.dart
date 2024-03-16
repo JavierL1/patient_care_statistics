@@ -14,12 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+HealthProfessionalEntry _$HealthProfessionalEntryFromJson(
+    Map<String, dynamic> json) {
+  return _HealthProfessionalEntry.fromJson(json);
+}
+
 /// @nodoc
 mixin _$HealthProfessionalEntry {
   DateTime get insertedAt => throw _privateConstructorUsedError;
-  HealthProfessional get healthProfessional =>
-      throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get profession => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $HealthProfessionalEntryCopyWith<HealthProfessionalEntry> get copyWith =>
       throw _privateConstructorUsedError;
@@ -31,9 +37,7 @@ abstract class $HealthProfessionalEntryCopyWith<$Res> {
           $Res Function(HealthProfessionalEntry) then) =
       _$HealthProfessionalEntryCopyWithImpl<$Res, HealthProfessionalEntry>;
   @useResult
-  $Res call({DateTime insertedAt, HealthProfessional healthProfessional});
-
-  $HealthProfessionalCopyWith<$Res> get healthProfessional;
+  $Res call({DateTime insertedAt, String name, String profession});
 }
 
 /// @nodoc
@@ -51,27 +55,23 @@ class _$HealthProfessionalEntryCopyWithImpl<$Res,
   @override
   $Res call({
     Object? insertedAt = null,
-    Object? healthProfessional = null,
+    Object? name = null,
+    Object? profession = null,
   }) {
     return _then(_value.copyWith(
       insertedAt: null == insertedAt
           ? _value.insertedAt
           : insertedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      healthProfessional: null == healthProfessional
-          ? _value.healthProfessional
-          : healthProfessional // ignore: cast_nullable_to_non_nullable
-              as HealthProfessional,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      profession: null == profession
+          ? _value.profession
+          : profession // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $HealthProfessionalCopyWith<$Res> get healthProfessional {
-    return $HealthProfessionalCopyWith<$Res>(_value.healthProfessional,
-        (value) {
-      return _then(_value.copyWith(healthProfessional: value) as $Val);
-    });
   }
 }
 
@@ -84,10 +84,7 @@ abstract class _$$HealthProfessionalEntryImplCopyWith<$Res>
       __$$HealthProfessionalEntryImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime insertedAt, HealthProfessional healthProfessional});
-
-  @override
-  $HealthProfessionalCopyWith<$Res> get healthProfessional;
+  $Res call({DateTime insertedAt, String name, String profession});
 }
 
 /// @nodoc
@@ -104,35 +101,45 @@ class __$$HealthProfessionalEntryImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? insertedAt = null,
-    Object? healthProfessional = null,
+    Object? name = null,
+    Object? profession = null,
   }) {
     return _then(_$HealthProfessionalEntryImpl(
       insertedAt: null == insertedAt
           ? _value.insertedAt
           : insertedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      healthProfessional: null == healthProfessional
-          ? _value.healthProfessional
-          : healthProfessional // ignore: cast_nullable_to_non_nullable
-              as HealthProfessional,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      profession: null == profession
+          ? _value.profession
+          : profession // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$HealthProfessionalEntryImpl implements _HealthProfessionalEntry {
   const _$HealthProfessionalEntryImpl(
-      {required this.insertedAt, required this.healthProfessional});
+      {required this.insertedAt, required this.name, required this.profession});
+
+  factory _$HealthProfessionalEntryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HealthProfessionalEntryImplFromJson(json);
 
   @override
   final DateTime insertedAt;
   @override
-  final HealthProfessional healthProfessional;
+  final String name;
+  @override
+  final String profession;
 
   @override
   String toString() {
-    return 'HealthProfessionalEntry(insertedAt: $insertedAt, healthProfessional: $healthProfessional)';
+    return 'HealthProfessionalEntry(insertedAt: $insertedAt, name: $name, profession: $profession)';
   }
 
   @override
@@ -142,12 +149,14 @@ class _$HealthProfessionalEntryImpl implements _HealthProfessionalEntry {
             other is _$HealthProfessionalEntryImpl &&
             (identical(other.insertedAt, insertedAt) ||
                 other.insertedAt == insertedAt) &&
-            (identical(other.healthProfessional, healthProfessional) ||
-                other.healthProfessional == healthProfessional));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.profession, profession) ||
+                other.profession == profession));
   }
 
+  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, insertedAt, healthProfessional);
+  int get hashCode => Object.hash(runtimeType, insertedAt, name, profession);
 
   @JsonKey(ignore: true)
   @override
@@ -155,18 +164,30 @@ class _$HealthProfessionalEntryImpl implements _HealthProfessionalEntry {
   _$$HealthProfessionalEntryImplCopyWith<_$HealthProfessionalEntryImpl>
       get copyWith => __$$HealthProfessionalEntryImplCopyWithImpl<
           _$HealthProfessionalEntryImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HealthProfessionalEntryImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _HealthProfessionalEntry implements HealthProfessionalEntry {
   const factory _HealthProfessionalEntry(
-          {required final DateTime insertedAt,
-          required final HealthProfessional healthProfessional}) =
-      _$HealthProfessionalEntryImpl;
+      {required final DateTime insertedAt,
+      required final String name,
+      required final String profession}) = _$HealthProfessionalEntryImpl;
+
+  factory _HealthProfessionalEntry.fromJson(Map<String, dynamic> json) =
+      _$HealthProfessionalEntryImpl.fromJson;
 
   @override
   DateTime get insertedAt;
   @override
-  HealthProfessional get healthProfessional;
+  String get name;
+  @override
+  String get profession;
   @override
   @JsonKey(ignore: true)
   _$$HealthProfessionalEntryImplCopyWith<_$HealthProfessionalEntryImpl>

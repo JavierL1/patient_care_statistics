@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:patient_care_statistics/views/health_professional.dart';
+import 'package:patient_care_statistics/views/health_professionals.dart';
 
 import 'views/new_born_entry.dart';
 import 'routes.dart';
@@ -22,9 +23,20 @@ class CustomRouter {
           settings: settings,
         );
 
-      case healthProfessionalRoute:
+      case healthProfessionalsRoute:
         return MaterialPageRoute(
-          builder: (context) => const HealthProfessionalView(),
+          builder: (context) => const HealthProfessionalsView(),
+          settings: settings,
+        );
+
+      case healthProfessionalRoute:
+        final healthProfessional =
+            ((settings.arguments ?? {}) as Map)['healthProfessional'];
+
+        return MaterialPageRoute(
+          builder: (context) => HealthProfessionalView(
+            healthProfessional: healthProfessional,
+          ),
           settings: settings,
         );
 

@@ -19,21 +19,19 @@ class NewBornSheetsView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CoolButton(
-              onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
-              child: const Icon(Icons.baby_changing_station),
+              onPressed: () =>
+                  Navigator.pushNamed(context, healthProfessionalsRoute),
+              child: const Icon(Icons.manage_accounts),
             ),
           ],
         ),
       ),
-      appBar: AppBar(automaticallyImplyLeading: false),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text("Recién nacidos"),
+      ),
       body: ref.watch(newBornSheetsProvider).when(
-            data: (newBornSheets) {
-              if (newBornSheets.isNotEmpty) {
-                return SheetsLister(newBornSheets: newBornSheets);
-              } else {
-                return const Center(child: Text("No hay registros"));
-              }
-            },
+            data: (newBornSheets) => _Body(newBornSheets: newBornSheets),
             error: (e, s) {
               return const Center(
                 child: Text("Error"),
@@ -47,9 +45,33 @@ class NewBornSheetsView extends ConsumerWidget {
   }
 }
 
-class SheetsLister extends StatelessWidget {
-  const SheetsLister({
-    super.key,
+class _Body extends StatelessWidget {
+  const _Body({required this.newBornSheets});
+
+  final List<NewBornSheet> newBornSheets;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        newBornSheets.isNotEmpty
+            ? _SheetsLister(newBornSheets: newBornSheets)
+            : const Center(child: Text("No hay registros")),
+        Positioned(
+          bottom: 10,
+          right: 10,
+          child: CoolButton(
+            onPressed: () => Navigator.pushNamed(context, newBornEntryRoute),
+            child: const Icon(Icons.add),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _SheetsLister extends StatelessWidget {
+  const _SheetsLister({
     required this.newBornSheets,
   });
 
