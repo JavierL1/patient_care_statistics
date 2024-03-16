@@ -27,6 +27,7 @@ mixin _$NewBornEntry {
   String get newBornName => throw _privateConstructorUsedError;
   DateTime get birthDateTime => throw _privateConstructorUsedError;
   String get healthInsurance => throw _privateConstructorUsedError;
+  String? get assigneeId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $NewBornEntryCopyWith<$Res> {
       DateTime entryDateTime,
       String newBornName,
       DateTime birthDateTime,
-      String healthInsurance});
+      String healthInsurance,
+      String? assigneeId});
 }
 
 /// @nodoc
@@ -70,6 +72,7 @@ class _$NewBornEntryCopyWithImpl<$Res, $Val extends NewBornEntry>
     Object? newBornName = null,
     Object? birthDateTime = null,
     Object? healthInsurance = null,
+    Object? assigneeId = freezed,
   }) {
     return _then(_value.copyWith(
       insertedAt: null == insertedAt
@@ -100,6 +103,10 @@ class _$NewBornEntryCopyWithImpl<$Res, $Val extends NewBornEntry>
           ? _value.healthInsurance
           : healthInsurance // ignore: cast_nullable_to_non_nullable
               as String,
+      assigneeId: freezed == assigneeId
+          ? _value.assigneeId
+          : assigneeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -119,7 +126,8 @@ abstract class _$$NewBornEntryImplCopyWith<$Res>
       DateTime entryDateTime,
       String newBornName,
       DateTime birthDateTime,
-      String healthInsurance});
+      String healthInsurance,
+      String? assigneeId});
 }
 
 /// @nodoc
@@ -140,6 +148,7 @@ class __$$NewBornEntryImplCopyWithImpl<$Res>
     Object? newBornName = null,
     Object? birthDateTime = null,
     Object? healthInsurance = null,
+    Object? assigneeId = freezed,
   }) {
     return _then(_$NewBornEntryImpl(
       insertedAt: null == insertedAt
@@ -170,6 +179,10 @@ class __$$NewBornEntryImplCopyWithImpl<$Res>
           ? _value.healthInsurance
           : healthInsurance // ignore: cast_nullable_to_non_nullable
               as String,
+      assigneeId: freezed == assigneeId
+          ? _value.assigneeId
+          : assigneeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -184,7 +197,8 @@ class _$NewBornEntryImpl implements _NewBornEntry {
       required this.entryDateTime,
       required this.newBornName,
       required this.birthDateTime,
-      required this.healthInsurance});
+      required this.healthInsurance,
+      required this.assigneeId});
 
   factory _$NewBornEntryImpl.fromJson(Map<String, dynamic> json) =>
       _$$NewBornEntryImplFromJson(json);
@@ -203,10 +217,12 @@ class _$NewBornEntryImpl implements _NewBornEntry {
   final DateTime birthDateTime;
   @override
   final String healthInsurance;
+  @override
+  final String? assigneeId;
 
   @override
   String toString() {
-    return 'NewBornEntry(insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, birthDateTime: $birthDateTime, healthInsurance: $healthInsurance)';
+    return 'NewBornEntry(insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, birthDateTime: $birthDateTime, healthInsurance: $healthInsurance, assigneeId: $assigneeId)';
   }
 
   @override
@@ -226,13 +242,15 @@ class _$NewBornEntryImpl implements _NewBornEntry {
             (identical(other.birthDateTime, birthDateTime) ||
                 other.birthDateTime == birthDateTime) &&
             (identical(other.healthInsurance, healthInsurance) ||
-                other.healthInsurance == healthInsurance));
+                other.healthInsurance == healthInsurance) &&
+            (identical(other.assigneeId, assigneeId) ||
+                other.assigneeId == assigneeId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, insertedAt, sectorCode, bedCode,
-      entryDateTime, newBornName, birthDateTime, healthInsurance);
+      entryDateTime, newBornName, birthDateTime, healthInsurance, assigneeId);
 
   @JsonKey(ignore: true)
   @override
@@ -256,7 +274,8 @@ abstract class _NewBornEntry implements NewBornEntry {
       required final DateTime entryDateTime,
       required final String newBornName,
       required final DateTime birthDateTime,
-      required final String healthInsurance}) = _$NewBornEntryImpl;
+      required final String healthInsurance,
+      required final String? assigneeId}) = _$NewBornEntryImpl;
 
   factory _NewBornEntry.fromJson(Map<String, dynamic> json) =
       _$NewBornEntryImpl.fromJson;
@@ -275,6 +294,8 @@ abstract class _NewBornEntry implements NewBornEntry {
   DateTime get birthDateTime;
   @override
   String get healthInsurance;
+  @override
+  String? get assigneeId;
   @override
   @JsonKey(ignore: true)
   _$$NewBornEntryImplCopyWith<_$NewBornEntryImpl> get copyWith =>

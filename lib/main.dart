@@ -1,16 +1,17 @@
 import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
-import 'package:patient_care_statistics/providers/db.dart';
-import 'package:patient_care_statistics/providers/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:uuid/uuid.dart';
 
+import 'providers/db.dart';
+import 'providers/shared_preferences.dart';
+import 'providers/uuid.dart';
 import 'router.dart';
 import 'routes.dart';
-import 'providers/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

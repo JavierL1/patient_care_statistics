@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:patient_care_statistics/aggregates/health_professional.dart';
+
+import '../aggregates/health_professional.dart';
 
 part 'health_professional_entry.freezed.dart';
 part 'health_professional_entry.g.dart';

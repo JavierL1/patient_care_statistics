@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../events/base_event.dart';
@@ -47,6 +48,7 @@ class NewBornSheet with _$NewBornSheet {
   factory NewBornSheet.reduceFromStream(
     String streamId,
     List<BaseEvent> events,
+    List<HealthProfessional> healthProfessionals,
   ) {
     final now = DateTime.now();
     events.sort((a, b) => a.version.compareTo(b.version));
@@ -59,6 +61,7 @@ class NewBornSheet with _$NewBornSheet {
             previousValue,
             element.data,
             now,
+            healthProfessionals,
           ).copyWith(insertedAt: DateTime.parse(element.data["insertedAt"]));
 
         case "UPDATE_NEW_BORN_SHEET_BASE_FIELDS":
@@ -66,6 +69,7 @@ class NewBornSheet with _$NewBornSheet {
             previousValue,
             element.data,
             now,
+            healthProfessionals,
           );
 
         default:
@@ -78,9 +82,11 @@ class NewBornSheet with _$NewBornSheet {
     NewBornSheet newBornSheet,
     Map<String, dynamic> data,
     DateTime now,
+    List<HealthProfessional> healthProfessionals,
   ) {
     final birthDateTime = DateTime.parse(data["birthDateTime"]);
     final lifeDays = now.difference(birthDateTime).inDays;
+    final assignee = _resolveHealthProfessional(data, healthProfessionals);
     return newBornSheet.copyWith(
       sectorCode: data["sectorCode"],
       bedCode: data["bedCode"],
@@ -89,6 +95,20 @@ class NewBornSheet with _$NewBornSheet {
       birthDateTime: DateTime.parse(data["birthDateTime"]),
       healthInsurance: data["healthInsurance"],
       lifeDays: lifeDays,
+      assignee: assignee,
     );
+  }
+}
+
+HealthProfessional? _resolveHealthProfessional(
+  Map<String, dynamic> data,
+  List<HealthProfessional> healthProfessionals,
+) {
+  final String? assigneeId = data["assigneeId"];
+  if (assigneeId != null) {
+    return healthProfessionals
+        .firstWhereOrNull((element) => element.id == assigneeId);
+  } else {
+    return null;
   }
 }

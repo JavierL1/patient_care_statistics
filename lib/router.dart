@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:patient_care_statistics/views/health_professional.dart';
-import 'package:patient_care_statistics/views/health_professionals.dart';
+import 'views/health_professional.dart';
+import 'views/health_professionals.dart';
 
 import 'views/new_born_entry.dart';
 import 'routes.dart';

@@ -15,8 +15,7 @@ class HealthProfessionalsSelector extends StatelessWidget {
     return SimpleDialog(
       title: Text(
         'Selecciona la profesional',
-        style: Theme.of(context).textTheme.displayLarge,
-        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
       children: healthProfessionals
           .map(
@@ -28,7 +27,7 @@ class HealthProfessionalsSelector extends StatelessWidget {
                 children: [
                   Text(
                     healthProfessional.name,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                   Text(

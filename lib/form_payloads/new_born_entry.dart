@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:patient_care_statistics/aggregates/new_born_sheet.dart';
+
+import '../aggregates/new_born_sheet.dart';
 
 part 'new_born_entry.freezed.dart';
 part 'new_born_entry.g.dart';
@@ -14,6 +15,7 @@ class NewBornEntry with _$NewBornEntry {
     required String newBornName,
     required DateTime birthDateTime,
     required String healthInsurance,
+    required String? assigneeId,
   }) = _NewBornEntry;
 
   factory NewBornEntry.fromJson(Map<String, dynamic> json) =>
@@ -27,6 +29,7 @@ class NewBornEntry with _$NewBornEntry {
         newBornName: "",
         birthDateTime: DateTime.now(),
         healthInsurance: "",
+        assigneeId: null,
       );
 
   factory NewBornEntry.fromSheet(NewBornSheet sheet) => NewBornEntry(
@@ -37,5 +40,6 @@ class NewBornEntry with _$NewBornEntry {
         newBornName: sheet.newBornName,
         birthDateTime: sheet.birthDateTime,
         healthInsurance: sheet.healthInsurance,
+        assigneeId: sheet.assignee?.id,
       );
 }

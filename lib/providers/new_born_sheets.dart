@@ -1,12 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:patient_care_statistics/aggregates/new_born_sheet.dart';
-import 'package:patient_care_statistics/events/base_event.dart';
-import 'package:patient_care_statistics/providers/db.dart';
+
+import '../aggregates/new_born_sheet.dart';
+import '../events/base_event.dart';
+import 'db.dart';
+import 'health_professionals.dart';
 
 final newBornSheetsProvider = FutureProvider<List<NewBornSheet>>(
   (ref) async {
     final db = ref.watch(dbInstanceProvider);
     if (db == null) return [];
+
+    final healthProfessionals =
+        await ref.watch(healthProfessionalsProvider.future);
+
     final newBornSheetEvents = await db.query(
       'events',
       where: '"event_type" IN (?, ?)',
@@ -28,7 +34,11 @@ final newBornSheetsProvider = FutureProvider<List<NewBornSheet>>(
           return previousValue;
         })
         .entries
-        .map((e) => NewBornSheet.reduceFromStream(e.key, e.value))
+        .map((e) => NewBornSheet.reduceFromStream(
+              e.key,
+              e.value,
+              healthProfessionals,
+            ))
         .toList();
   },
   name: 'NewBornSheets',

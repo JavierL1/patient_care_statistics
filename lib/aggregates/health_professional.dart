@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:patient_care_statistics/events/base_event.dart';
+import '../events/base_event.dart';
 
 part 'health_professional.freezed.dart';
 part 'health_professional.g.dart';

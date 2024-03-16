@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../aggregates/health_professional.dart';
 import '../aggregates/new_born_sheet.dart';
 import '../events/create_new_born_sheet.dart';
 import '../events/update_new_born_sheet_base_fields.dart';
@@ -144,6 +146,7 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 10),
             CustomTextField(
               hintText: 'A-001',
               labelText: 'Sector',
@@ -182,52 +185,11 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
               controller: _controllers['healthInsurance']!,
             ),
             const SizedBox(height: 10),
-            Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(10.0),
-                border: Border.all(color: Colors.black54, width: 1.5),
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: GestureDetector(
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Profesional encargada',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        Text(
-                          'Dámaris Suárez',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_drop_down, size: 40),
-                  ],
-                ),
-                onTap: () async {
-                  final healthProfessionals =
-                      await ref.watch(healthProfessionalsProvider.future);
-
-                  final healthProfessional = await showDialog<int>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return HealthProfessionalsSelector(
-                        healthProfessionals: healthProfessionals,
-                      );
-                    },
-                  );
-                },
-              ),
+            _AssigneeSelector(
+              assigneeId: _state.assigneeId,
+              setAssignee: (assigneeId) => setState(() {
+                _state = _state.copyWith(assigneeId: assigneeId);
+              }),
             ),
             const SizedBox(height: 10),
             CoolButton(
@@ -241,5 +203,83 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
         ),
       ),
     );
+  }
+}
+
+class _AssigneeSelector extends ConsumerWidget {
+  const _AssigneeSelector(
+      {required this.assigneeId, required this.setAssignee});
+
+  final String? assigneeId;
+  final void Function(String) setAssignee;
+  final defaultAssigneeName = 'Sin Profedional Asignada';
+
+  String resolveAssigneeName(List<HealthProfessional> healthProfessionals) {
+    if (assigneeId != null) {
+      return healthProfessionals
+              .firstWhereOrNull((element) => element.id == assigneeId)
+              ?.name ??
+          defaultAssigneeName;
+    }
+    return defaultAssigneeName;
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(healthProfessionalsProvider).when(
+        data: (healthProfessionals) => GestureDetector(
+              child: Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.black54, width: 1.5),
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Profesional asignada',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          resolveAssigneeName(healthProfessionals),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const Icon(Icons.arrow_drop_down, size: 40),
+                  ],
+                ),
+              ),
+              onTap: () async {
+                final healthProfessionals =
+                    await ref.watch(healthProfessionalsProvider.future);
+
+                final healthProfessional = await showDialog<HealthProfessional>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return HealthProfessionalsSelector(
+                      healthProfessionals: healthProfessionals,
+                    );
+                  },
+                );
+
+                if (healthProfessional != null) {
+                  setAssignee(healthProfessional.id);
+                }
+              },
+            ),
+        error: (e, s) => const Text("error"),
+        loading: () => const CircularProgressIndicator());
   }
 }
