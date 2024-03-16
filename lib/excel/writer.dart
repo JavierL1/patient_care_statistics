@@ -41,6 +41,8 @@ Future<void> _writeExcel(List<NewBornSheet> newBornSheets) async {
     'Fecha de nacimiento',
     'Días de vida',
     'Previsión de salud',
+    'Profesional',
+    'Profesión',
   ];
 
   _writeHeaders(excelSheet, headers);
@@ -72,6 +74,8 @@ void _writeBody(Sheet excelSheet, List<NewBornSheet> newBornSheets) {
       DateTimeCellValue.fromDateTime(item.birthDateTime),
       FormulaCellValue("DAYS(TODAY(), E${rowIndex + 1})"),
       TextCellValue(item.healthInsurance),
+      TextCellValue(item.assignee?.name ?? ''),
+      TextCellValue(item.assignee?.profession ?? ''),
     ];
 
     for (var (columnIndex, cellValue) in cellValues.indexed) {

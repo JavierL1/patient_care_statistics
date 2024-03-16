@@ -212,7 +212,7 @@ class _AssigneeSelector extends ConsumerWidget {
 
   final String? assigneeId;
   final void Function(String) setAssignee;
-  final defaultAssigneeName = 'Sin Profedional Asignada';
+  final defaultAssigneeName = 'Sin Profesional Asignada';
 
   String resolveAssigneeName(List<HealthProfessional> healthProfessionals) {
     if (assigneeId != null) {
