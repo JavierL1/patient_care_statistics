@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:patient_care_statistics/enums/sex.dart';
 
 import '../events/base_event.dart';
 import 'guardian.dart';
@@ -16,6 +17,7 @@ class NewBornSheet with _$NewBornSheet {
     required String bedCode,
     required DateTime entryDateTime,
     required String newBornName,
+    required Sex sex,
     required DateTime birthDateTime,
     required int lifeDays,
     required Guardian? mother,
@@ -34,6 +36,7 @@ class NewBornSheet with _$NewBornSheet {
         bedCode: "",
         entryDateTime: DateTime.now(),
         newBornName: "",
+        sex: Sex.other,
         birthDateTime: DateTime.now(),
         lifeDays: 0,
         healthInsurance: "",
@@ -92,6 +95,7 @@ class NewBornSheet with _$NewBornSheet {
       bedCode: data["bedCode"],
       entryDateTime: DateTime.parse(data["entryDateTime"]),
       newBornName: data["newBornName"],
+      sex: stringToSex(data["sex"]),
       birthDateTime: DateTime.parse(data["birthDateTime"]),
       healthInsurance: data["healthInsurance"],
       lifeDays: lifeDays,

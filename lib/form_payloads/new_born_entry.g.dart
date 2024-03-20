@@ -13,6 +13,7 @@ _$NewBornEntryImpl _$$NewBornEntryImplFromJson(Map<String, dynamic> json) =>
       bedCode: json['bedCode'] as String,
       entryDateTime: DateTime.parse(json['entryDateTime'] as String),
       newBornName: json['newBornName'] as String,
+      sex: $enumDecode(_$SexEnumMap, json['sex']),
       birthDateTime: DateTime.parse(json['birthDateTime'] as String),
       healthInsurance: json['healthInsurance'] as String,
       assigneeId: json['assigneeId'] as String?,
@@ -25,7 +26,14 @@ Map<String, dynamic> _$$NewBornEntryImplToJson(_$NewBornEntryImpl instance) =>
       'bedCode': instance.bedCode,
       'entryDateTime': instance.entryDateTime.toIso8601String(),
       'newBornName': instance.newBornName,
+      'sex': _$SexEnumMap[instance.sex]!,
       'birthDateTime': instance.birthDateTime.toIso8601String(),
       'healthInsurance': instance.healthInsurance,
       'assigneeId': instance.assigneeId,
     };
+
+const _$SexEnumMap = {
+  Sex.male: 'male',
+  Sex.female: 'female',
+  Sex.other: 'other',
+};

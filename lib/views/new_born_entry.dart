@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:patient_care_statistics/widgets/form_item_button.dart';
 
 import '../aggregates/health_professional.dart';
 import '../aggregates/new_born_sheet.dart';
+import '../enums/sex.dart';
 import '../events/create_new_born_sheet.dart';
 import '../events/update_new_born_sheet_base_fields.dart';
 import '../form_payloads/new_born_entry.dart';
@@ -16,6 +18,7 @@ import '../widgets/cool_button.dart';
 import '../widgets/custom_date_time_picker.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/health_professionals_selector.dart';
+import '../widgets/simple_picker.dart';
 
 class NewBornEntryView extends ConsumerStatefulWidget {
   final NewBornSheet? newBornSheet;
@@ -192,6 +195,17 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
               }),
             ),
             const SizedBox(height: 10),
+            SimplePicker<Sex>(
+              title: 'Sexo',
+              subtitle: sexToString(_state.sex),
+              onSelect: (sex) => setState(() {
+                _state = _state.copyWith(sex: sex);
+              }),
+              items: Sex.values
+                  .map((e) => (name: sexToString(e), value: e))
+                  .toList(),
+            ),
+            const SizedBox(height: 10),
             CoolButton(
               child: const Text('Guardar'),
               onPressed: () async {
@@ -227,44 +241,14 @@ class _AssigneeSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ref.watch(healthProfessionalsProvider).when(
-        data: (healthProfessionals) => GestureDetector(
-              child: Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: Colors.black54, width: 1.5),
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Profesional asignada',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          resolveAssigneeName(healthProfessionals),
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const Icon(Icons.arrow_drop_down, size: 40),
-                  ],
-                ),
-              ),
+        data: (healthProfessionals) => FormItemButton(
+              title: 'Profesional asignada',
+              subtitle: resolveAssigneeName(healthProfessionals),
               onTap: () async {
                 final healthProfessionals =
                     await ref.watch(healthProfessionalsProvider.future);
 
+                if (!context.mounted) return;
                 final healthProfessional = await showDialog<HealthProfessional>(
                   context: context,
                   builder: (BuildContext context) {

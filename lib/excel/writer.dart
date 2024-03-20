@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:patient_care_statistics/enums/sex.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -34,12 +35,13 @@ Future<void> _writeExcel(List<NewBornSheet> newBornSheets) async {
   Sheet excelSheet = excel.sheets.entries.first.value;
 
   final headers = [
+    'Fecha de registro',
     'Sector',
     'Cama',
     'Nombre RN',
-    'Fecha de registro',
-    'Fecha de nacimiento',
-    'Días de vida',
+    'Sexo RN',
+    'Fecha Parto',
+    'Edad RN',
     'Previsión de salud',
     'Profesional',
     'Profesión',
@@ -67,12 +69,13 @@ void _writeBody(Sheet excelSheet, List<NewBornSheet> newBornSheets) {
     final rowIndex = index + 1;
 
     final cellValues = [
+      DateTimeCellValue.fromDateTime(item.entryDateTime),
       TextCellValue(item.sectorCode),
       TextCellValue(item.bedCode),
       TextCellValue(item.newBornName),
-      DateTimeCellValue.fromDateTime(item.entryDateTime),
+      TextCellValue(sexToString(item.sex)),
       DateTimeCellValue.fromDateTime(item.birthDateTime),
-      FormulaCellValue("DAYS(TODAY(), E${rowIndex + 1})"),
+      FormulaCellValue("DAYS(TODAY(), F${rowIndex + 1})"),
       TextCellValue(item.healthInsurance),
       TextCellValue(item.assignee?.name ?? ''),
       TextCellValue(item.assignee?.profession ?? ''),

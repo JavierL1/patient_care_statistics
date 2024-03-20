@@ -25,6 +25,7 @@ mixin _$NewBornEntry {
   String get bedCode => throw _privateConstructorUsedError;
   DateTime get entryDateTime => throw _privateConstructorUsedError;
   String get newBornName => throw _privateConstructorUsedError;
+  Sex get sex => throw _privateConstructorUsedError;
   DateTime get birthDateTime => throw _privateConstructorUsedError;
   String get healthInsurance => throw _privateConstructorUsedError;
   String? get assigneeId => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $NewBornEntryCopyWith<$Res> {
       String bedCode,
       DateTime entryDateTime,
       String newBornName,
+      Sex sex,
       DateTime birthDateTime,
       String healthInsurance,
       String? assigneeId});
@@ -70,6 +72,7 @@ class _$NewBornEntryCopyWithImpl<$Res, $Val extends NewBornEntry>
     Object? bedCode = null,
     Object? entryDateTime = null,
     Object? newBornName = null,
+    Object? sex = null,
     Object? birthDateTime = null,
     Object? healthInsurance = null,
     Object? assigneeId = freezed,
@@ -95,6 +98,10 @@ class _$NewBornEntryCopyWithImpl<$Res, $Val extends NewBornEntry>
           ? _value.newBornName
           : newBornName // ignore: cast_nullable_to_non_nullable
               as String,
+      sex: null == sex
+          ? _value.sex
+          : sex // ignore: cast_nullable_to_non_nullable
+              as Sex,
       birthDateTime: null == birthDateTime
           ? _value.birthDateTime
           : birthDateTime // ignore: cast_nullable_to_non_nullable
@@ -125,6 +132,7 @@ abstract class _$$NewBornEntryImplCopyWith<$Res>
       String bedCode,
       DateTime entryDateTime,
       String newBornName,
+      Sex sex,
       DateTime birthDateTime,
       String healthInsurance,
       String? assigneeId});
@@ -146,6 +154,7 @@ class __$$NewBornEntryImplCopyWithImpl<$Res>
     Object? bedCode = null,
     Object? entryDateTime = null,
     Object? newBornName = null,
+    Object? sex = null,
     Object? birthDateTime = null,
     Object? healthInsurance = null,
     Object? assigneeId = freezed,
@@ -171,6 +180,10 @@ class __$$NewBornEntryImplCopyWithImpl<$Res>
           ? _value.newBornName
           : newBornName // ignore: cast_nullable_to_non_nullable
               as String,
+      sex: null == sex
+          ? _value.sex
+          : sex // ignore: cast_nullable_to_non_nullable
+              as Sex,
       birthDateTime: null == birthDateTime
           ? _value.birthDateTime
           : birthDateTime // ignore: cast_nullable_to_non_nullable
@@ -196,6 +209,7 @@ class _$NewBornEntryImpl implements _NewBornEntry {
       required this.bedCode,
       required this.entryDateTime,
       required this.newBornName,
+      required this.sex,
       required this.birthDateTime,
       required this.healthInsurance,
       required this.assigneeId});
@@ -214,6 +228,8 @@ class _$NewBornEntryImpl implements _NewBornEntry {
   @override
   final String newBornName;
   @override
+  final Sex sex;
+  @override
   final DateTime birthDateTime;
   @override
   final String healthInsurance;
@@ -222,7 +238,7 @@ class _$NewBornEntryImpl implements _NewBornEntry {
 
   @override
   String toString() {
-    return 'NewBornEntry(insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, birthDateTime: $birthDateTime, healthInsurance: $healthInsurance, assigneeId: $assigneeId)';
+    return 'NewBornEntry(insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, sex: $sex, birthDateTime: $birthDateTime, healthInsurance: $healthInsurance, assigneeId: $assigneeId)';
   }
 
   @override
@@ -239,6 +255,7 @@ class _$NewBornEntryImpl implements _NewBornEntry {
                 other.entryDateTime == entryDateTime) &&
             (identical(other.newBornName, newBornName) ||
                 other.newBornName == newBornName) &&
+            (identical(other.sex, sex) || other.sex == sex) &&
             (identical(other.birthDateTime, birthDateTime) ||
                 other.birthDateTime == birthDateTime) &&
             (identical(other.healthInsurance, healthInsurance) ||
@@ -249,8 +266,17 @@ class _$NewBornEntryImpl implements _NewBornEntry {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, insertedAt, sectorCode, bedCode,
-      entryDateTime, newBornName, birthDateTime, healthInsurance, assigneeId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      insertedAt,
+      sectorCode,
+      bedCode,
+      entryDateTime,
+      newBornName,
+      sex,
+      birthDateTime,
+      healthInsurance,
+      assigneeId);
 
   @JsonKey(ignore: true)
   @override
@@ -273,6 +299,7 @@ abstract class _NewBornEntry implements NewBornEntry {
       required final String bedCode,
       required final DateTime entryDateTime,
       required final String newBornName,
+      required final Sex sex,
       required final DateTime birthDateTime,
       required final String healthInsurance,
       required final String? assigneeId}) = _$NewBornEntryImpl;
@@ -290,6 +317,8 @@ abstract class _NewBornEntry implements NewBornEntry {
   DateTime get entryDateTime;
   @override
   String get newBornName;
+  @override
+  Sex get sex;
   @override
   DateTime get birthDateTime;
   @override

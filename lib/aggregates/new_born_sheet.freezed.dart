@@ -22,6 +22,7 @@ mixin _$NewBornSheet {
   String get bedCode => throw _privateConstructorUsedError;
   DateTime get entryDateTime => throw _privateConstructorUsedError;
   String get newBornName => throw _privateConstructorUsedError;
+  Sex get sex => throw _privateConstructorUsedError;
   DateTime get birthDateTime => throw _privateConstructorUsedError;
   int get lifeDays => throw _privateConstructorUsedError;
   Guardian? get mother => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $NewBornSheetCopyWith<$Res> {
       String bedCode,
       DateTime entryDateTime,
       String newBornName,
+      Sex sex,
       DateTime birthDateTime,
       int lifeDays,
       Guardian? mother,
@@ -84,6 +86,7 @@ class _$NewBornSheetCopyWithImpl<$Res, $Val extends NewBornSheet>
     Object? bedCode = null,
     Object? entryDateTime = null,
     Object? newBornName = null,
+    Object? sex = null,
     Object? birthDateTime = null,
     Object? lifeDays = null,
     Object? mother = freezed,
@@ -119,6 +122,10 @@ class _$NewBornSheetCopyWithImpl<$Res, $Val extends NewBornSheet>
           ? _value.newBornName
           : newBornName // ignore: cast_nullable_to_non_nullable
               as String,
+      sex: null == sex
+          ? _value.sex
+          : sex // ignore: cast_nullable_to_non_nullable
+              as Sex,
       birthDateTime: null == birthDateTime
           ? _value.birthDateTime
           : birthDateTime // ignore: cast_nullable_to_non_nullable
@@ -210,6 +217,7 @@ abstract class _$$NewBornSheetImplCopyWith<$Res>
       String bedCode,
       DateTime entryDateTime,
       String newBornName,
+      Sex sex,
       DateTime birthDateTime,
       int lifeDays,
       Guardian? mother,
@@ -245,6 +253,7 @@ class __$$NewBornSheetImplCopyWithImpl<$Res>
     Object? bedCode = null,
     Object? entryDateTime = null,
     Object? newBornName = null,
+    Object? sex = null,
     Object? birthDateTime = null,
     Object? lifeDays = null,
     Object? mother = freezed,
@@ -280,6 +289,10 @@ class __$$NewBornSheetImplCopyWithImpl<$Res>
           ? _value.newBornName
           : newBornName // ignore: cast_nullable_to_non_nullable
               as String,
+      sex: null == sex
+          ? _value.sex
+          : sex // ignore: cast_nullable_to_non_nullable
+              as Sex,
       birthDateTime: null == birthDateTime
           ? _value.birthDateTime
           : birthDateTime // ignore: cast_nullable_to_non_nullable
@@ -330,6 +343,7 @@ class _$NewBornSheetImpl implements _NewBornSheet {
       required this.bedCode,
       required this.entryDateTime,
       required this.newBornName,
+      required this.sex,
       required this.birthDateTime,
       required this.lifeDays,
       required this.mother,
@@ -353,6 +367,8 @@ class _$NewBornSheetImpl implements _NewBornSheet {
   final DateTime entryDateTime;
   @override
   final String newBornName;
+  @override
+  final Sex sex;
   @override
   final DateTime birthDateTime;
   @override
@@ -380,7 +396,7 @@ class _$NewBornSheetImpl implements _NewBornSheet {
 
   @override
   String toString() {
-    return 'NewBornSheet(id: $id, insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, birthDateTime: $birthDateTime, lifeDays: $lifeDays, mother: $mother, father: $father, healthInsurance: $healthInsurance, assignee: $assignee, attentionCount: $attentionCount, procedures: $procedures, requiresFollowUp: $requiresFollowUp)';
+    return 'NewBornSheet(id: $id, insertedAt: $insertedAt, sectorCode: $sectorCode, bedCode: $bedCode, entryDateTime: $entryDateTime, newBornName: $newBornName, sex: $sex, birthDateTime: $birthDateTime, lifeDays: $lifeDays, mother: $mother, father: $father, healthInsurance: $healthInsurance, assignee: $assignee, attentionCount: $attentionCount, procedures: $procedures, requiresFollowUp: $requiresFollowUp)';
   }
 
   @override
@@ -398,6 +414,7 @@ class _$NewBornSheetImpl implements _NewBornSheet {
                 other.entryDateTime == entryDateTime) &&
             (identical(other.newBornName, newBornName) ||
                 other.newBornName == newBornName) &&
+            (identical(other.sex, sex) || other.sex == sex) &&
             (identical(other.birthDateTime, birthDateTime) ||
                 other.birthDateTime == birthDateTime) &&
             (identical(other.lifeDays, lifeDays) ||
@@ -425,6 +442,7 @@ class _$NewBornSheetImpl implements _NewBornSheet {
       bedCode,
       entryDateTime,
       newBornName,
+      sex,
       birthDateTime,
       lifeDays,
       mother,
@@ -450,6 +468,7 @@ abstract class _NewBornSheet implements NewBornSheet {
       required final String bedCode,
       required final DateTime entryDateTime,
       required final String newBornName,
+      required final Sex sex,
       required final DateTime birthDateTime,
       required final int lifeDays,
       required final Guardian? mother,
@@ -472,6 +491,8 @@ abstract class _NewBornSheet implements NewBornSheet {
   DateTime get entryDateTime;
   @override
   String get newBornName;
+  @override
+  Sex get sex;
   @override
   DateTime get birthDateTime;
   @override
