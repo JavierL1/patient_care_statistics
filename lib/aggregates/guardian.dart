@@ -5,6 +5,7 @@ part 'guardian.freezed.dart';
 @Freezed(makeCollectionsUnmodifiable: false)
 class Guardian with _$Guardian {
   const factory Guardian({
+    required String id,
     required String name,
     required String rut,
     required String nationality,

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:patient_care_statistics/enums/sex.dart';
 
+import '../enums/sex.dart';
 import '../events/base_event.dart';
 import 'guardian.dart';
 import 'health_professional.dart';
@@ -52,6 +52,7 @@ class NewBornSheet with _$NewBornSheet {
     String streamId,
     List<BaseEvent> events,
     List<HealthProfessional> healthProfessionals,
+    List<Guardian> guardians,
   ) {
     final now = DateTime.now();
     events.sort((a, b) => a.version.compareTo(b.version));
@@ -75,6 +76,13 @@ class NewBornSheet with _$NewBornSheet {
             healthProfessionals,
           );
 
+        case "SET_GUARDIAN":
+          return NewBornSheet.setGuardian(
+            previousValue,
+            element.data,
+            guardians,
+          );
+
         default:
           return previousValue;
       }
@@ -89,7 +97,11 @@ class NewBornSheet with _$NewBornSheet {
   ) {
     final birthDateTime = DateTime.parse(data["birthDateTime"]);
     final lifeDays = now.difference(birthDateTime).inDays;
-    final assignee = _resolveHealthProfessional(data, healthProfessionals);
+    final assignee = _resolveFromId<HealthProfessional>(
+      data["assigneeId"],
+      healthProfessionals,
+      (healthProfessional) => healthProfessional.id,
+    );
     return newBornSheet.copyWith(
       sectorCode: data["sectorCode"],
       bedCode: data["bedCode"],
@@ -102,16 +114,39 @@ class NewBornSheet with _$NewBornSheet {
       assignee: assignee,
     );
   }
+
+  factory NewBornSheet.setGuardian(
+    NewBornSheet newBornSheet,
+    Map<String, dynamic> data,
+    List<Guardian> guardians,
+  ) {
+    final guardianType = data["guardianType"];
+
+    switch (guardianType) {
+      case 'father':
+        return newBornSheet.copyWith(
+          father: _resolveFromId<Guardian>(
+            data["guardianId"],
+            guardians,
+            (guardian) => guardian.id,
+          ),
+        );
+
+      default:
+        return newBornSheet.copyWith(
+          mother: _resolveFromId<Guardian>(
+            data["guardianId"],
+            guardians,
+            (guardian) => guardian.id,
+          ),
+        );
+    }
+  }
 }
 
-HealthProfessional? _resolveHealthProfessional(
-  Map<String, dynamic> data,
-  List<HealthProfessional> healthProfessionals,
-) {
-  final String? assigneeId = data["assigneeId"];
-  if (assigneeId != null) {
-    return healthProfessionals
-        .firstWhereOrNull((element) => element.id == assigneeId);
+T? _resolveFromId<T>(String? id, List<T> items, String Function(T) getItemId) {
+  if (id != null) {
+    return items.firstWhereOrNull((element) => getItemId(element) == id);
   } else {
     return null;
   }

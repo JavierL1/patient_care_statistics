@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Guardian {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get rut => throw _privateConstructorUsedError;
   String get nationality => throw _privateConstructorUsedError;
@@ -37,7 +38,8 @@ abstract class $GuardianCopyWith<$Res> {
       _$GuardianCopyWithImpl<$Res, Guardian>;
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       String rut,
       String nationality,
       String sex,
@@ -61,6 +63,7 @@ class _$GuardianCopyWithImpl<$Res, $Val extends Guardian>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? rut = null,
     Object? nationality = null,
@@ -72,6 +75,10 @@ class _$GuardianCopyWithImpl<$Res, $Val extends Guardian>
     Object? commune = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -121,7 +128,8 @@ abstract class _$$GuardianImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name,
+      {String id,
+      String name,
       String rut,
       String nationality,
       String sex,
@@ -143,6 +151,7 @@ class __$$GuardianImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? rut = null,
     Object? nationality = null,
@@ -154,6 +163,10 @@ class __$$GuardianImplCopyWithImpl<$Res>
     Object? commune = null,
   }) {
     return _then(_$GuardianImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -198,7 +211,8 @@ class __$$GuardianImplCopyWithImpl<$Res>
 
 class _$GuardianImpl implements _Guardian {
   const _$GuardianImpl(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.rut,
       required this.nationality,
       required this.sex,
@@ -208,6 +222,8 @@ class _$GuardianImpl implements _Guardian {
       required this.phoneNumber,
       required this.commune});
 
+  @override
+  final String id;
   @override
   final String name;
   @override
@@ -229,7 +245,7 @@ class _$GuardianImpl implements _Guardian {
 
   @override
   String toString() {
-    return 'Guardian(name: $name, rut: $rut, nationality: $nationality, sex: $sex, age: $age, ocupation: $ocupation, diagnostics: $diagnostics, phoneNumber: $phoneNumber, commune: $commune)';
+    return 'Guardian(id: $id, name: $name, rut: $rut, nationality: $nationality, sex: $sex, age: $age, ocupation: $ocupation, diagnostics: $diagnostics, phoneNumber: $phoneNumber, commune: $commune)';
   }
 
   @override
@@ -237,6 +253,7 @@ class _$GuardianImpl implements _Guardian {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GuardianImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.rut, rut) || other.rut == rut) &&
             (identical(other.nationality, nationality) ||
@@ -255,6 +272,7 @@ class _$GuardianImpl implements _Guardian {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       rut,
       nationality,
@@ -274,7 +292,8 @@ class _$GuardianImpl implements _Guardian {
 
 abstract class _Guardian implements Guardian {
   const factory _Guardian(
-      {required final String name,
+      {required final String id,
+      required final String name,
       required final String rut,
       required final String nationality,
       required final String sex,
@@ -284,6 +303,8 @@ abstract class _Guardian implements Guardian {
       required final String phoneNumber,
       required final String commune}) = _$GuardianImpl;
 
+  @override
+  String get id;
   @override
   String get name;
   @override
