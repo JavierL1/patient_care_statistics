@@ -1,23 +1,19 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:patient_care_statistics/widgets/form_item_button.dart';
 
-import '../aggregates/health_professional.dart';
 import '../aggregates/new_born_sheet.dart';
 import '../enums/sex.dart';
 import '../events/create_new_born_sheet.dart';
 import '../events/update_new_born_sheet_base_fields.dart';
 import '../form_payloads/new_born_entry.dart';
 import '../providers/db.dart';
-import '../providers/health_professionals.dart';
 import '../providers/new_born_sheets.dart';
 import '../providers/uuid.dart';
 import '../routes.dart';
+import '../widgets/assignee_selector.dart';
 import '../widgets/cool_button.dart';
 import '../widgets/custom_date_time_picker.dart';
 import '../widgets/custom_text_field.dart';
-import '../widgets/health_professionals_selector.dart';
 import '../widgets/simple_picker.dart';
 
 class NewBornEntryView extends ConsumerStatefulWidget {
@@ -188,7 +184,7 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
               controller: _controllers['healthInsurance']!,
             ),
             const SizedBox(height: 10),
-            _AssigneeSelector(
+            AssigneeSelector(
               assigneeId: _state.assigneeId,
               setAssignee: (assigneeId) => setState(() {
                 _state = _state.copyWith(assigneeId: assigneeId);
@@ -217,53 +213,5 @@ class _NewBornEntryViewState extends ConsumerState<NewBornEntryView> {
         ),
       ),
     );
-  }
-}
-
-class _AssigneeSelector extends ConsumerWidget {
-  const _AssigneeSelector(
-      {required this.assigneeId, required this.setAssignee});
-
-  final String? assigneeId;
-  final void Function(String) setAssignee;
-  final defaultAssigneeName = 'Sin Profesional Asignada';
-
-  String resolveAssigneeName(List<HealthProfessional> healthProfessionals) {
-    if (assigneeId != null) {
-      return healthProfessionals
-              .firstWhereOrNull((element) => element.id == assigneeId)
-              ?.name ??
-          defaultAssigneeName;
-    }
-    return defaultAssigneeName;
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(healthProfessionalsProvider).when(
-        data: (healthProfessionals) => FormItemButton(
-              title: 'Profesional asignada',
-              subtitle: resolveAssigneeName(healthProfessionals),
-              onTap: () async {
-                final healthProfessionals =
-                    await ref.watch(healthProfessionalsProvider.future);
-
-                if (!context.mounted) return;
-                final healthProfessional = await showDialog<HealthProfessional>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return HealthProfessionalsSelector(
-                      healthProfessionals: healthProfessionals,
-                    );
-                  },
-                );
-
-                if (healthProfessional != null) {
-                  setAssignee(healthProfessional.id);
-                }
-              },
-            ),
-        error: (e, s) => const Text("error"),
-        loading: () => const CircularProgressIndicator());
   }
 }
