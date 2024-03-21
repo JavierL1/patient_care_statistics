@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_care_statistics/widgets/cute_box.dart';
 
 import '../aggregates/health_professional.dart';
 
@@ -23,19 +24,24 @@ class HealthProfessionalsSelector extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context, healthProfessional);
               },
-              child: Column(
-                children: [
-                  Text(
-                    healthProfessional.name,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    healthProfessional.profession,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              child: CuteBox(
+                child: Column(
+                  children: [
+                    Text(
+                      healthProfessional.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      healthProfessional.profession,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
           )

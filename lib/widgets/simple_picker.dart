@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_care_statistics/widgets/cute_box.dart';
 import 'package:patient_care_statistics/widgets/form_item_button.dart';
 
 class SimplePicker<T> extends StatelessWidget {
@@ -78,29 +79,15 @@ class _PickerItemLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
+    return CuteBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.purple.shade200,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
